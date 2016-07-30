@@ -36,7 +36,7 @@ public class MultipleRegression implements ML {
         this.stepSize = stepSize;
         this.iterations = iterations;
 
-        List<Double> starterCo = labeledPoints.get(0).getPredictors().stream().map(xi -> new Random().nextDouble()).collect(Collectors.toList());
+        List<Double> starterCo = labeledPoints.get(0).getPredictors().stream().map(xi -> .9).collect(Collectors.toList());
         coefficients = ro.run(Target.SquaredError, labeledPoints, starterCo, iterations, stepSize);
     }
 

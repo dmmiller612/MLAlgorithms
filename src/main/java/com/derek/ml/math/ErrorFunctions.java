@@ -25,6 +25,10 @@ public class ErrorFunctions {
         return LinearAlgebra.dot(xi, coefficients);
     }
 
+    public static double lassoPenalty(List<Double> coefficients, double alpha) {
+        return alpha * coefficients.stream().mapToDouble(item -> Math.abs(item)).sum();
+    }
+
     /**
      * @param beta are the coefficients
      * @param alpha is the penalty. The lower alpha means the closer to sum of squares. Higher is closer to 0 of coefficients
@@ -48,12 +52,19 @@ public class ErrorFunctions {
                 toReturn.add(2 * alpha * betaI);
             }
         }
-
         return toReturn;
     }
 
     public static List<Double> squaredErrorRidgeGradient(LabeledPoint lp, List<Double> beta, double alpha){
         return LinearAlgebra.vectorAdd(squaredErrorGradient(lp.getPredictors(), lp.getOutcome(), beta), ridgePenaltyGradient(beta, alpha));
+    }
+
+    public static Double negate(Double value){
+        return -value;
+    }
+
+    public static List<Double> negateAll(List<Double> values){
+        return values.stream().map(item -> -item).collect(Collectors.toList());
     }
 
 }

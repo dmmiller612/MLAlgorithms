@@ -37,8 +37,6 @@ public class LinearAlgebra {
         return items.stream().map(item -> item * scalar).collect(Collectors.toList());
     }
 
-
-
     public static List<Double> vectorAdd(List<Double> one, List<Double> two) {
         return zip(one, two).stream().map(item -> item.one + item.two).collect(Collectors.toList());
     }
