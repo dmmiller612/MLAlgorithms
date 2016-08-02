@@ -9,20 +9,59 @@ import com.derek.ml.model.LabeledPoint;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class StochasticGradientDescent implements RandomizedOptimization {
 
+    private Target target;
+    private List<Double> theta;
+    private int numIterations;
+    private double stepSize;
+    private double alpha = 0;
+
+    public StochasticGradientDescent(Target target, List<Double> theta, int numIterations, double stepSize, double alpha){
+        this.target = target;
+        this.theta = theta;
+        this.numIterations = numIterations;
+        this.stepSize = stepSize;
+        this.alpha = alpha;
+    }
+
+    public StochasticGradientDescent(Target target, List<Double> theta, int numIterations, double stepSize){
+        this.target = target;
+        this.theta = theta;
+        this.numIterations = numIterations;
+        this.stepSize = stepSize;
+    }
+
+    public StochasticGradientDescent(Target target, int numIterations, double stepSize, double alpha){
+        this.target = target;
+        this.numIterations = numIterations;
+        this.stepSize = stepSize;
+        this.alpha = alpha;
+    }
+
+    public StochasticGradientDescent(Target target, int numIterations, double stepSize){
+        this.target = target;
+        this.numIterations = numIterations;
+        this.stepSize = stepSize;
+    }
+
+    public StochasticGradientDescent(List<LabeledPoint> lps) {
+        this.target = Target.SquaredError;
+        this.numIterations = 500;
+        this.stepSize = .001;
+        this.alpha = 0;
+    }
+
     /**
      *
-     * @param target this is the target function, such as the squaredError
-     * @param points These are the labeled points
-     * @param theta These are the initial coefficients or weights that need to be trained
-     * @param numIterations number of iterations of no improvement
-     * @param stepSize Size of step for gradient
      * @return a list of the best found coefficients
      */
-    public List<Double> run(Target target, List<LabeledPoint> points, List<Double> theta, int numIterations, double stepSize, double alpha){
-        List<Double> coefficients = theta;
+    @Override
+    public List<Double> run(List<LabeledPoint> labeledPoints){
+        List<Double> coefficients = theta == null ? labeledPoints.get(0).getPredictors().stream().map(xi -> new Random().nextDouble()).collect(Collectors.toList()) : theta;
         double step = stepSize <= 0 ? .01 : stepSize;
         List<Double> minTheta = null;
         double minValue = Double.MAX_VALUE;
@@ -32,7 +71,7 @@ public class StochasticGradientDescent implements RandomizedOptimization {
         while (iterationsWithNoImprovement < numIterations) {
             final List<Double> tempCoefficients = coefficients; //here for final usage
             //sum of the points applied to one of the target functions
-            double value = points.stream().mapToDouble(lp -> useTarget(target, lp, tempCoefficients, alpha)).sum();
+            double value = labeledPoints.stream().mapToDouble(lp -> useTarget(target, lp, tempCoefficients, alpha)).sum();
             //if the value is less than min value, we want to go to that point
             if (value < minValue) {
                 minTheta = coefficients;
@@ -45,7 +84,7 @@ public class StochasticGradientDescent implements RandomizedOptimization {
             }
 
             //randomize the points
-            List<LabeledPoint> randomizedPoints = randomOrder(points);
+            List<LabeledPoint> randomizedPoints = randomOrder(labeledPoints);
             for (LabeledPoint lp: randomizedPoints) {
                 //get the gradient with the coefficients
                 List<Double> grad = useGradient(target, lp, coefficients, alpha);
@@ -55,10 +94,6 @@ public class StochasticGradientDescent implements RandomizedOptimization {
         }
 
         return minTheta;
-    }
-
-    public List<Double> run(Target target, List<LabeledPoint> points, List<Double> theta, int numIterations, double stepSize) {
-        return run(target, points, theta, numIterations, stepSize, 0);
     }
 
     private List<LabeledPoint> randomOrder(List<LabeledPoint> lps){
