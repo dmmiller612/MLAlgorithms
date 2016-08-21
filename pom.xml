@@ -35,7 +35,7 @@
                     <!-- MainClass in mainfest make a executable jar -->
                     <archive>
                         <manifest>
-                            <mainClass>com.inin.sparkscripts.SparkStuff</mainClass>
+                            <mainClass>com.derek.ml.example.MultipleRegressionExampleSGD</mainClass>
                         </manifest>
                     </archive>
 

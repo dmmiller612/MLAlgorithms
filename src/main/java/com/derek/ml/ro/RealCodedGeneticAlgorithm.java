@@ -122,14 +122,14 @@ public class RealCodedGeneticAlgorithm implements RandomizedOptimization {
     private List<Chromosome> crossoverAll(List<Chromosome> chromosomes){
         List<Chromosome> returnResult = new ArrayList<>();
         for (int i = chromosomes.size() -1; i > 0; i -= 2) {
-            Pair<Chromosome> chromosomePair = crossover(chromosomes.get(i), chromosomes.get(i - 1));
+            Pair<Chromosome, Chromosome> chromosomePair = crossover(chromosomes.get(i), chromosomes.get(i - 1));
             returnResult.add(chromosomePair.genericOne);
             returnResult.add(chromosomePair.genericTwo);
         }
         return returnResult;
     }
 
-    private Pair<Chromosome> crossover(Chromosome a, Chromosome b){
+    private Pair<Chromosome, Chromosome> crossover(Chromosome a, Chromosome b){
         List<Double> aCoefficients = a.getCoefficients();
         List<Double> bCoefficients = b.getCoefficients();
 
@@ -145,7 +145,7 @@ public class RealCodedGeneticAlgorithm implements RandomizedOptimization {
                 yNewCoefficients.add(bCoefficients.get(i));
             }
         }
-        return new Pair<Chromosome>(new Chromosome(xNewCoefficients), new Chromosome(yNewCoefficients));
+        return new Pair<Chromosome, Chromosome>(new Chromosome(xNewCoefficients), new Chromosome(yNewCoefficients));
     }
 
     private Pair sbc(double x, double y){

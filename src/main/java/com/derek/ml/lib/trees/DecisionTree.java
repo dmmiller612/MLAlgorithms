@@ -73,7 +73,7 @@ public abstract class DecisionTree implements ML {
             return new TreeNode(new TreeNode(0.0), new TreeNode(1.0), bestPredictorIndex, p.two);
         }
         //else handle rest of tree
-        Pair<List<LabeledPoint>> pair = partitionWhere(lps, bestPredictorIndex, p.two);
+        Pair<List<LabeledPoint>, List<LabeledPoint>> pair = partitionWhere(lps, bestPredictorIndex, p.two);
         return new TreeNode(makeTree(pair.genericOne), makeTree(pair.genericTwo), bestPredictorIndex, p.two);
     }
 
@@ -87,7 +87,7 @@ public abstract class DecisionTree implements ML {
                 .collect(Collectors.toList());
     }
 
-    protected Pair<List<LabeledPoint>> partitionWhere(List<LabeledPoint> lps, int attributeIndex, double splitValue) {
+    protected Pair<List<LabeledPoint>, List<LabeledPoint>> partitionWhere(List<LabeledPoint> lps, int attributeIndex, double splitValue) {
         List<LabeledPoint> zeros = new ArrayList<>();
         List<LabeledPoint> ones = new ArrayList<>();
 
