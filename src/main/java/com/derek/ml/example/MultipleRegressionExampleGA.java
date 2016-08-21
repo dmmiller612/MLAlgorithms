@@ -2,7 +2,6 @@ package com.derek.ml.example;
 
 
 import com.derek.ml.lib.regression.MultipleRegression;
-import com.derek.ml.lib.regression.PolynomialRegression;
 import com.derek.ml.model.LabeledPoint;
 
 import java.util.ArrayList;

@@ -124,7 +124,7 @@ public class RealCodedGeneticAlgorithm implements RandomizedOptimization {
         for (int i = chromosomes.size() -1; i > 0; i -= 2) {
             Pair<Chromosome> chromosomePair = crossover(chromosomes.get(i), chromosomes.get(i - 1));
             returnResult.add(chromosomePair.genericOne);
-            returnResult.add(chromosomePair.getGenericTwo);
+            returnResult.add(chromosomePair.genericTwo);
         }
         return returnResult;
     }

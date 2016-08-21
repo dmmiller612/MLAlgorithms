@@ -13,26 +13,6 @@ public class LogFunctions {
         return 1.0 / (1 + Math.exp(-value));
     }
 
-    public static double logisticPrime(double value) {
-        return logistic(value) * (1 - logistic(value));
-    }
-
-    public static double logisticLogLikelihood(LabeledPoint labeledPoint, List<Double> beta) {
-        if (labeledPoint.getOutcome() == 1.0) {
-            return Math.log(logistic(LinearAlgebra.dot(labeledPoint.getPredictors(), beta)));
-        } else {
-            return Math.log(1 - logistic(LinearAlgebra.dot(labeledPoint.getPredictors(), beta)));
-        }
-    }
-
-    public static double logisticLogLikelihood(List<LabeledPoint> lps, List<Double> beta) {
-        double toReturn = 0;
-        for (LabeledPoint lp : lps) {
-            toReturn += logisticLogLikelihood(lp, beta);
-        }
-        return toReturn;
-    }
-
     public static double logisticLogPartial(LabeledPoint lp, List<Double> beta, int x) {
         return (lp.getOutcome() - logistic(LinearAlgebra.dot(lp.getPredictors(), beta))) * lp.getPredictors().get(x);
     }
@@ -44,6 +24,27 @@ public class LogFunctions {
         }
         return toReturn;
     }
+
+    public static double logisticLogLikelihood(LabeledPoint labeledPoint, List<Double> beta) {
+        if (labeledPoint.getOutcome() == 1.0) {
+            return Math.log(logistic(LinearAlgebra.dot(labeledPoint.getPredictors(), beta)));
+        } else {
+            return Math.log(1 - logistic(LinearAlgebra.dot(labeledPoint.getPredictors(), beta)));
+        }
+    }
+
+    public static double logisticPrime(double value) {
+        return logistic(value) * (1 - logistic(value));
+    }
+
+    public static double logisticLogLikelihood(List<LabeledPoint> lps, List<Double> beta) {
+        double toReturn = 0;
+        for (LabeledPoint lp : lps) {
+            toReturn += logisticLogLikelihood(lp, beta);
+        }
+        return toReturn;
+    }
+
 
     public static List<Double> logisticLogGradient(List<LabeledPoint> lps, List<Double> beta) {
         Optional<List<Double>> opt = lps.stream().map(lp -> logisticLogGradientX(lp, beta)).reduce(LinearAlgebra::vectorAdd);

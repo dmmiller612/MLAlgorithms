@@ -6,7 +6,7 @@ public class Pair<T> {
     public Double two;
 
     public T genericOne;
-    public T getGenericTwo;
+    public T genericTwo;
 
     public Pair(Double one, Double two){
         this.one = one;
@@ -15,6 +15,6 @@ public class Pair<T> {
 
     public Pair(T one, T two) {
         this.genericOne = one;
-        this.getGenericTwo = two;
+        this.genericTwo = two;
     }
 }

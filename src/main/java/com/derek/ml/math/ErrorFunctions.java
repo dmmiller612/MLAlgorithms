@@ -35,8 +35,7 @@ public class ErrorFunctions {
      * @return penalty
      */
     public static Double ridgePenalty(List<Double> beta, Double alpha) {
-        if (beta.size() < 2) { return 0.0; }
-        return alpha * LinearAlgebra.dot(beta.subList(1, beta.size() -1), beta.subList(1, beta.size() -1));
+        return alpha * LinearAlgebra.dot(beta.subList(1, beta.size()), beta.subList(1, beta.size()));
     }
 
     public static double squaredErrorRidge(LabeledPoint lp, List<Double> beta, double alpha){
@@ -47,7 +46,7 @@ public class ErrorFunctions {
         List<Double> toReturn = new ArrayList<>();
         toReturn.add(0.0);
         if (beta.size() > 1){
-            List<Double> coefficients = beta.subList(1, beta.size() -1);
+            List<Double> coefficients = beta.subList(1, beta.size());
             for (Double betaI : coefficients) {
                 toReturn.add(2 * alpha * betaI);
             }

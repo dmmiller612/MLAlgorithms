@@ -2,7 +2,6 @@ package com.derek.ml.example;
 
 
 import com.derek.ml.lib.regression.MultipleRegression;
-import com.derek.ml.lib.regression.PolynomialRegression;
 import com.derek.ml.model.LabeledPoint;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public class MultipleRegressionExampleSGD {
 
     public static void main(String args[]) {
         basicMultipleRegression();
-        basicPolynomialRegression();
+        basicRidgeRegression();
     }
 
     public static void basicMultipleRegression(){
@@ -25,13 +24,14 @@ public class MultipleRegressionExampleSGD {
         System.out.println("BASIC MULTIPLE REGRESSION END \n \n");
     }
 
-    public static void basicPolynomialRegression() {
-        System.out.println("BASIC POLYNOMIAL REGRESSION START");
+
+    public static void basicRidgeRegression() {
+        System.out.println("BASIC Ridge Regression Start");
         List<LabeledPoint> labeledPoints = createLabeledPoints();
-        PolynomialRegression polynomialRegression = PolynomialRegression.polynomialRegressionSGD(labeledPoints, 2000, .000001, 2);
-        System.out.println("r^2 equals: " + polynomialRegression.rSquared());
-        System.out.println("Prediction equals: " + polynomialRegression.predict(Arrays.asList(50.0, 25.0)));
-        System.out.println("BASIC POLYNOMIAL REGRESSION END \n \n");
+        MultipleRegression multipleRegression = MultipleRegression.ridgeRegressionSGD(labeledPoints, 2000, .000001, 0.01);
+        System.out.println("r^2 equals: " + multipleRegression.rSquared());
+        System.out.println("Prediction equals: " + multipleRegression.predict(Arrays.asList(50.0, 25.0)));
+        System.out.println("BASIC Ridge REGRESSION END \n \n");
     }
 
     public static List<LabeledPoint> createLabeledPoints(){

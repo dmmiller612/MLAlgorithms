@@ -10,6 +10,7 @@ import com.derek.ml.ro.RealCodedGeneticAlgorithm;
 import com.derek.ml.ro.StochasticGradientDescent;
 import com.derek.ml.ro.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ public class MultipleRegression implements ML {
 
     public static MultipleRegression ridgeRegressionSGD(List<LabeledPoint> labeledPoints, int numIterations, double stepSize, double alpha) {
         StochasticGradientDescent stochasticGradientDescent = new StochasticGradientDescent(Target.RIDGE_SQUARE_ERROR, numIterations, stepSize, alpha);
-        return new MultipleRegression(labeledPoints, stochasticGradientDescent);
+        return new MultipleRegression(addYIntercept(labeledPoints), stochasticGradientDescent);
     }
 
     public static MultipleRegression multipleRegressionGA(List<LabeledPoint> labeledPoints) {
@@ -61,6 +62,17 @@ public class MultipleRegression implements ML {
 
     public List<LabeledPoint> getLabeledPoints(){
         return labeledPoints;
+    }
+
+    public static List<LabeledPoint> addYIntercept(List<LabeledPoint> lps){
+        List<LabeledPoint> toReturn = new ArrayList<>();
+        for (LabeledPoint lp : lps) {
+            List<Double> predictors = new ArrayList<>();
+            predictors.add(1.0);
+            predictors.addAll(lp.getPredictors());
+            toReturn.add(lp);
+        }
+        return toReturn;
     }
 
 }
