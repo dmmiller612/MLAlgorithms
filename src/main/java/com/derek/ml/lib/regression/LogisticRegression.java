@@ -11,11 +11,7 @@ import com.derek.ml.ro.Target;
 
 import java.util.List;
 
-public class LogisticRegression implements ML {
-
-    protected List<LabeledPoint> labeledPoints;
-    protected RandomizedOptimization ro;
-    protected List<Double> coefficients;
+public class LogisticRegression extends Regression {
 
     public LogisticRegression(List<LabeledPoint> labeledPoints, RandomizedOptimization ro){
         this.labeledPoints = labeledPoints;

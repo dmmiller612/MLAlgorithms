@@ -13,6 +13,12 @@ public class NaiveBayes implements ML {
 
     private Pair<List<Pair>, List<Pair>> summaries;
 
+    public NaiveBayes(){}
+
+    public NaiveBayes(List<LabeledPoint> lps){
+        this.summaries = summarize(lps);
+    }
+
     public void train(List<LabeledPoint> lps) {
         this.summaries = summarize(lps);
     }

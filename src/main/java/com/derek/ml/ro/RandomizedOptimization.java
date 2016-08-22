@@ -1,7 +1,6 @@
 package com.derek.ml.ro;
 
 
-
 import com.derek.ml.model.LabeledPoint;
 
 import java.util.List;
