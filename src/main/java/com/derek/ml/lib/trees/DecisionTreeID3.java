@@ -1,7 +1,6 @@
 package com.derek.ml.lib.trees;
 
 
-
 import com.derek.ml.Util;
 import com.derek.ml.model.LabeledPoint;
 import com.derek.ml.model.Pair;

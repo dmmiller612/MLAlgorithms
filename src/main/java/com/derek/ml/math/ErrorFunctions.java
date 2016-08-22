@@ -29,6 +29,10 @@ public class ErrorFunctions {
         return alpha * coefficients.stream().mapToDouble(item -> Math.abs(item)).sum();
     }
 
+    public static double squaredErrorLasso(LabeledPoint lp, List<Double> beta, double alpha){
+        return Math.pow(error(lp.getOutcome(), lp.getPredictors(), beta), 2) + lassoPenalty(beta, alpha);
+    }
+
     /**
      * @param beta are the coefficients
      * @param alpha is the penalty. The lower alpha means the closer to sum of squares. Higher is closer to 0 of coefficients

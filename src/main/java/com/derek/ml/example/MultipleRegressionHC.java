@@ -1,38 +1,37 @@
 package com.derek.ml.example;
 
 
+import com.derek.ml.lib.regression.LassoRegression;
 import com.derek.ml.lib.regression.MultipleRegression;
-import com.derek.ml.lib.regression.RidgeRegression;
 import com.derek.ml.model.LabeledPoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MultipleRegressionExampleSGD {
+public class MultipleRegressionHC {
 
     public static void main(String args[]) {
-        basicMultipleRegression();
-        basicRidgeRegression();
+        hillClimbingRegression();
+        hillClimbingLasso();
     }
 
-    public static void basicMultipleRegression(){
-        System.out.println("BASIC MULTIPLE REGRESSION START");
+    public static void hillClimbingRegression() {
+        System.out.println("BASIC Hill Climbing");
         List<LabeledPoint> labeledPoints = createLabeledPoints();
-        MultipleRegression multipleRegression = MultipleRegression.multipleRegressionSGD(labeledPoints, 1000, .000001);
+        MultipleRegression multipleRegression = MultipleRegression.multipleRegressionRHC(labeledPoints);
         System.out.println("r^2 equals: " + multipleRegression.rSquared());
         System.out.println("Prediction equals: " + multipleRegression.predict(Arrays.asList(50.0, 25.0)));
-        System.out.println("BASIC MULTIPLE REGRESSION END \n \n");
+        System.out.println("BASIC Random Hill Climbing END \n \n");
     }
 
-
-    public static void basicRidgeRegression() {
-        System.out.println("BASIC Ridge Regression Start");
+    public static void hillClimbingLasso(){
+        System.out.println("BASIC Hill Climbing Lasso");
         List<LabeledPoint> labeledPoints = createLabeledPoints();
-        RidgeRegression multipleRegression = RidgeRegression.ridgeRegressionSGD(labeledPoints, 2000, .000001, 0.01);
+        LassoRegression multipleRegression = LassoRegression.lassoRegressionHC(labeledPoints, 2000, 2);
         System.out.println("r^2 equals: " + multipleRegression.rSquared());
         System.out.println("Prediction equals: " + multipleRegression.predict(Arrays.asList(50.0, 25.0)));
-        System.out.println("BASIC Ridge REGRESSION END \n \n");
+        System.out.println("BASIC Random Hill Climbing Lasso END \n \n");
     }
 
     public static List<LabeledPoint> createLabeledPoints(){

@@ -1,7 +1,6 @@
 package com.derek.ml.lib.regression;
 
 
-import com.derek.ml.lib.ML;
 import com.derek.ml.math.LinearAlgebra;
 import com.derek.ml.math.LogFunctions;
 import com.derek.ml.model.LabeledPoint;
@@ -14,9 +13,7 @@ import java.util.List;
 public class LogisticRegression extends Regression {
 
     public LogisticRegression(List<LabeledPoint> labeledPoints, RandomizedOptimization ro){
-        this.labeledPoints = labeledPoints;
-        this.ro = ro;
-        coefficients = ro.run(labeledPoints);
+        super(labeledPoints, ro);
     }
 
     public static LogisticRegression logisticRegressionSGD(List<LabeledPoint> labeledPoints, int numIterations, double stepSize){

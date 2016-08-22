@@ -1,12 +1,9 @@
 package com.derek.ml.ro;
 
 
-import com.derek.ml.math.ErrorFunctions;
 import com.derek.ml.math.LinearAlgebra;
-import com.derek.ml.math.LogFunctions;
 import com.derek.ml.model.LabeledPoint;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -71,7 +68,7 @@ public class StochasticGradientDescent implements RandomizedOptimization {
         while (iterationsWithNoImprovement < numIterations) {
             final List<Double> tempCoefficients = coefficients; //here for final usage
             //sum of the points applied to one of the target functions
-            double value = labeledPoints.stream().mapToDouble(lp -> useTarget(target, lp, tempCoefficients, alpha)).sum();
+            double value = labeledPoints.stream().mapToDouble(lp -> TargetFactory.useTarget(target, lp, tempCoefficients, alpha)).sum();
             //if the value is less than min value, we want to go to that point
             if (value < minValue) {
                 minTheta = coefficients;
@@ -87,7 +84,7 @@ public class StochasticGradientDescent implements RandomizedOptimization {
             List<LabeledPoint> randomizedPoints = randomOrder(labeledPoints);
             for (LabeledPoint lp: randomizedPoints) {
                 //get the gradient with the coefficients
-                List<Double> grad = useGradient(target, lp, coefficients, alpha);
+                List<Double> grad = TargetFactory.useGradient(target, lp, coefficients, alpha);
                 //the new coefficients are the coefficients subtracted by the gradient's * step
                 coefficients = LinearAlgebra.vectorSubtract(coefficients, LinearAlgebra.scalarMultiply(grad, step));
             }
@@ -101,26 +98,5 @@ public class StochasticGradientDescent implements RandomizedOptimization {
         return lps;
     }
 
-    private double useTarget(Target target, LabeledPoint lp, List<Double> beta, double alpha){
-         if (target == Target.SquaredError) {
-            return ErrorFunctions.squaredError(lp, beta);
-         } else if (target == Target.RIDGE_SQUARE_ERROR) {
-             return ErrorFunctions.squaredErrorRidge(lp, beta, alpha);
-         } else if (target == Target.NEGATE_LOGISTIC) {
-             return ErrorFunctions.negate(LogFunctions.logisticLogLikelihood(lp, beta));
-         }
-        return 0;
-    }
-
-    private List<Double> useGradient(Target gradient, LabeledPoint lp, List<Double> beta, double alpha) {
-        if (gradient == Target.SquaredError) {
-            return ErrorFunctions.squaredErrorGradient(lp.getPredictors(), lp.getOutcome(), beta);
-        } else if (gradient == Target.RIDGE_SQUARE_ERROR) {
-            return ErrorFunctions.squaredErrorRidgeGradient(lp, beta, alpha);
-        } else if (gradient == Target.NEGATE_LOGISTIC) {
-            return ErrorFunctions.negateAll(LogFunctions.logisticLogGradientX(lp, beta));
-        }
-        return new ArrayList<>();
-    }
 
 }

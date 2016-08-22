@@ -1,16 +1,10 @@
 package com.derek.ml.lib.regression;
 
 
-import com.derek.ml.lib.ML;
 import com.derek.ml.math.ErrorFunctions;
-import com.derek.ml.math.Statistics;
 import com.derek.ml.model.LabeledPoint;
-import com.derek.ml.ro.RandomizedOptimization;
-import com.derek.ml.ro.RealCodedGeneticAlgorithm;
-import com.derek.ml.ro.StochasticGradientDescent;
-import com.derek.ml.ro.Target;
+import com.derek.ml.ro.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +28,11 @@ public class MultipleRegression extends Regression {
     public static MultipleRegression multipleRegressionGA(List<LabeledPoint> labeledPoints) {
         RealCodedGeneticAlgorithm realCodedGeneticAlgorithm = new RealCodedGeneticAlgorithm();
         return new MultipleRegression(labeledPoints, realCodedGeneticAlgorithm);
+    }
+
+    public static MultipleRegression multipleRegressionRHC(List<LabeledPoint> labeledPoints) {
+        HillClimbing randomHillClimbing = new HillClimbing(Target.SquaredError);
+        return new MultipleRegression(labeledPoints, randomHillClimbing);
     }
 
     public Double predict(List<Double> x){
